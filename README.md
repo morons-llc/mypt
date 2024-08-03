@@ -14,7 +14,19 @@
 
 `npm run build`
 
+## Previews
+
+All PRs pushed to GitHub will generate a preview URL on Firebase that you can use to view changes before merging.
+
 ## Deploy
+
+### Standard production deploys
+
+By default all merges to `main` will deploy to production via GitHub Actions, so you should never need to manually deploy.
+
+### Manual production deploys
+
+If you need to deploy manually, you can:
 
 - `firebase login`
 - `npm run deploy`
