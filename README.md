@@ -6,9 +6,13 @@
 - `nvm use` or `nodenv install`
 - `npm install`
 
+## Develop
+
+`npm run dev` starts a web server in watch mode on [http://localhost:8080](http://localhost:8080).
+
 ## Build
 
-`npx @11ty/eleventy`
+`npm run build`
 
 ## Deploy
 
