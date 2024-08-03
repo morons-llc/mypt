@@ -21,6 +21,9 @@ jobs:
 
       - run: npm install
 
+      # For production deploys, make sure it still passes typecheck & lint
+      - run: npm run ci
+
       - run: npm run build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
