@@ -2,8 +2,8 @@
 
 ## Get started
 
-- Install [nvm](https://github.com/nvm-sh/nvm)
-- `nvm use`
+- Install [nvm](https://github.com/nvm-sh/nvm) or [nodenv](https://github.com/nodenv/nodenv)
+- `nvm use` or `nodenv install`
 - `npm install`
 
 ## Build
