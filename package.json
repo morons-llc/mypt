@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@11ty/eleventy": "^2.0.1"
+  },
+  "devDependencies": {
+    "firebase-tools": "^13.15.0"
   }
 }
