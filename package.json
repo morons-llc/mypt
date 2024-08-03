@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "eleventy",
+    "build:production": "rm -fr _site && npm run build",
+    "deploy": "npm run build:production && firebase deploy",
     "dev": "eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

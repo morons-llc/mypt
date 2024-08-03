@@ -17,4 +17,4 @@
 ## Deploy
 
 - `firebase login`
-- `firebase deploy`
+- `npm run deploy`
