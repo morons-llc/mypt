@@ -150,9 +150,16 @@ function enableSelectionAnchors() {
       return;
     }
 
-    const selection = window.getSelection(); // Get the current selection object
-    selection.removeAllRanges(); // Clear any existing ranges
-    selection.addRange(range); // Add our new range
+    if (typeof Highlight !== "undefined") {
+      // Use experimental highlights
+      const highlight = new Highlight(range);
+      CSS.highlights.set("p2025-selection", highlight);
+    } else {
+      // Fallback to browser selection
+      const selection = window.getSelection(); // Get the current selection object
+      selection.removeAllRanges(); // Clear any existing ranges
+      selection.addRange(range); // Add our new range
+    }
   }
 
   // On first load, jump to the selection target & select some text.
