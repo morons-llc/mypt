@@ -4,11 +4,10 @@
   "description": "my project 2025",
   "main": "index.js",
   "scripts": {
-    "build": "eleventy",
+    "build": "node build.js",
     "build:production": "rm -fr _site && npm run ci && npm run build",
     "ci": "npm run typecheck && npm run lint",
     "deploy": "npm run build:production && firebase deploy",
-    "dev": "eleventy --serve",
     "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1",
     "typecheck": "tsc --noEmit"
@@ -17,7 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1"
+    "ejs": "^3.1.10",
+    "js-yaml": "^4.1.0",
+    "pug": "^3.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
