@@ -8,12 +8,12 @@
     </head>
 
     <body>
-        <h1 class="font-bold">My Project 2025</h1>
-
-        <ul>
-            <% facts.forEach(fact => { %>
-                <li><a href="/<%= fact.slug %>"><%= fact.slug %></a></li>
-            <% }); %>
-        </ul>
+        <% factCards.forEach(factCard => { %>
+            <div class="mb-2">
+                <a href="/<%- factCard.fact.slug %>">
+                    <%- factCard.factCard %>
+                </a>
+            </div>
+        <% }); %>
     </body>
 </html>

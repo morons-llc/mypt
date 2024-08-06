@@ -34,19 +34,21 @@ fs.readdirSync('static', { withFileTypes: true }).forEach(dirent => {
 
 const facts = yaml.load(fs.readFileSync('facts.yaml', 'utf8'))
 const factTemplate = ejs.compile(fs.readFileSync('fact.ejs', 'utf8'))
+const factCardTemplate = ejs.compile(fs.readFileSync('fact_card.ejs', 'utf8'))
 
-let factCount = 0
+const factCards = []
 facts.forEach(fact => {
-  const page = factTemplate({ fact, staticFiles })
+  const factCard = factCardTemplate({ fact })
+  factCards.push({ fact, factCard })
+  const page = factTemplate({ factCard, staticFiles })
 
   fs.writeFileSync(`_site/${fact.slug}`, page)
   console.log(`rendered fact template: ${fact.slug}`)
-  factCount++
 })
-console.log(`rendered ${factCount} facts`)
+console.log(`rendered ${factCards.length} facts`)
 
 const indexTemplate = ejs.compile(fs.readFileSync('index.ejs', 'utf8'))
-fs.writeFileSync(`_site/index.html`, indexTemplate({ facts, staticFiles }))
+fs.writeFileSync(`_site/index.html`, indexTemplate({ factCards, staticFiles }))
 console.log(`rendered index.html`)
 
 console.log('Done!\n')
