@@ -4,11 +4,11 @@
   "description": "my project 2025",
   "main": "index.js",
   "scripts": {
-    "build": "eleventy",
+    "build": "npx tailwindcss -i ./main.css -o ./static/main.css && node build.mjs",
+    "dev": "cd _site && php -S localhost:8080",
     "build:production": "rm -fr _site && npm run ci && npm run build",
     "ci": "npm run typecheck && npm run lint",
     "deploy": "npm run build:production && firebase deploy",
-    "dev": "eleventy --serve",
     "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1",
     "typecheck": "tsc --noEmit"
@@ -17,7 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1"
+    "@google-cloud/storage": "^7.12.0",
+    "ejs": "^3.1.10",
+    "js-yaml": "^4.1.0",
+    "puppeteer": "^22.15.0",
+    "tailwindcss": "^3.4.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Project 2025</title>
+        <link rel="stylesheet" type="text/css" href="/static/<%= staticFiles['main.css'] %>">
+    </head>
+
+    <body>
+        <% factCards.forEach(factCard => { %>
+            <div class="mb-2">
+                <a href="/<%- factCard.fact.slug %>">
+                    <%- factCard.factCard %>
+                </a>
+            </div>
+        <% }); %>
+    </body>
+</html>

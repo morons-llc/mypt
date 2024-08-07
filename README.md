@@ -3,12 +3,15 @@
 ## Get started
 
 - Install [nvm](https://github.com/nvm-sh/nvm) or [nodenv](https://github.com/nodenv/nodenv)
+- Install php for dev server (macos: brew install php)
 - `nvm use` or `nodenv install`
 - `npm install`
 
 ## Develop
 
 `npm run dev` starts a web server in watch mode on [http://localhost:8080](http://localhost:8080).
+
+Need to re-run build to see updates. For rapid iterating on styles, use https://play.tailwindcss.com
 
 ## Build
 
