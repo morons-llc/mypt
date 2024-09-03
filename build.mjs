@@ -3,10 +3,12 @@ import ejs from 'ejs'
 import yaml from 'js-yaml'
 import crypto from 'crypto'
 import puppeteer from 'puppeteer'
-import { Storage } from '@google-cloud/storage'
+
+const BASE_URL = process.env.BASE_URL || 'https://2025would.com';
 
 fs.rmSync('_site', { recursive: true, force: true })
 fs.mkdirSync('_site', { recursive: true })
+fs.mkdirSync('_site/images', { recursive: true })
 
 // staticFiles maps static file source names to their fingerprinted versions
 // it is passed to all templates
@@ -37,50 +39,34 @@ const factTemplate = ejs.compile(fs.readFileSync('fact.ejs', 'utf8'))
 const factCardTemplate = ejs.compile(fs.readFileSync('fact_card.ejs', 'utf8'))
 const factCardImageTemplate = ejs.compile(fs.readFileSync('fact_card_image.ejs', 'utf8'))
 
-if (process.env.RENDER_IMAGES) {
-  browser = await puppeteer.launch()
-  fs.rmSync('_pics', { recursive: true, force: true })
-  fs.mkdirSync('_pics', { recursive: true })
-}
+browser = await puppeteer.launch()
+fs.rmSync('_pics', { recursive: true, force: true })
+fs.mkdirSync('_pics', { recursive: true })
 
 const factCards = []
 for (const fact of facts) {
   const factCard = factCardTemplate({ fact })
-  let imagePngFile, imagePngRemote
   factCards.push({ fact, factCard })
 
-  if (process.env.RENDER_IMAGES) {
-    const browserPage = await browser.newPage()
-    await browserPage.setViewport({ width: 1200, height: 630 });
-
-    const imageHtmlFile = `_pics/${fact.slug}.html`
-    imagePngFile = `_pics/${fact.slug}.html.png`
-
-    fs.writeFileSync(imageHtmlFile, factCardImageTemplate({ fact, cssContents }))
-
-    await browserPage.goto(`file://${process.cwd()}/${imageHtmlFile}`)
-    fs.writeFileSync(imagePngFile, await browserPage.screenshot({ type: 'png' }))
-    console.log(`rendered fact image: ${imagePngFile}`)
-  }
-
-  if (process.env.UPLOAD_IMAGES) {
-    const storage = new Storage()
-    imagePngRemote = fact.slug + ".png"
-
-    await storage.bucket('fact-images').upload(imagePngFile, { destination: imagePngRemote })
-  }
-
-  fs.writeFileSync(`_site/${fact.slug}`, factTemplate({ fact, factCard, staticFiles }))
+  // render HTML page
+  fs.writeFileSync(`_site/${fact.slug}`, factTemplate({ fact, factCard, staticFiles, baseUrl: BASE_URL }))
   console.log(`rendered fact template: ${fact.slug}`)
+
+  // render image for OpenGraph
+  const browserPage = await browser.newPage()
+  await browserPage.setViewport({ width: 1200, height: 630 });
+  const imageHtmlFile = `_pics/${fact.slug}.html`
+  fs.writeFileSync(imageHtmlFile, factCardImageTemplate({ fact, cssContents }))
+  await browserPage.goto(`file://${process.cwd()}/${imageHtmlFile}`)
+  const imagePngFile = `_site/images/${fact.slug}.html.png`
+  fs.writeFileSync(imagePngFile, await browserPage.screenshot({ type: 'png' }))
+  console.log(`rendered fact image: ${imagePngFile}`)
 }
 console.log(`rendered ${factCards.length} facts`)
-
-if (process.env.RENDER_IMAGES) {
-  await browser.close()
-}
 
 const indexTemplate = ejs.compile(fs.readFileSync('index.ejs', 'utf8'))
 fs.writeFileSync(`_site/index.html`, indexTemplate({ factCards, staticFiles }))
 console.log(`rendered index.html`)
 
 console.log('Done!\n')
+process.exit()

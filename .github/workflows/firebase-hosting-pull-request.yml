@@ -23,10 +23,13 @@ jobs:
 
       - run: npm install
 
-      - run: npm run build
+      - run: echo "FIREBASE_CHANNEL=pr-$(openssl rand -base64 12)" >> $GITHUB_ENV
+
+      - run: BASE_URL="https://myproj2025--${FIREBASE_CHANNEL}.web.app" npm run build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYPROJ2025 }}
           projectId: myproj2025
+          channelId: ${{ env.FIREBASE_CHANNEL }}
