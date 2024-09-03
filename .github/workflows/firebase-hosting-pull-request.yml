@@ -23,13 +23,12 @@ jobs:
 
       - run: npm install
 
-      - run: echo "FIREBASE_CHANNEL=pr-$(openssl rand -base64 12)" >> $GITHUB_ENV
-
-      - run: BASE_URL="https://myproj2025--${FIREBASE_CHANNEL}.web.app" npm run build
+      # setting this to empty string results in relative URLs for the OG images
+      # this make it easier to view them in PR previews
+      - run: IMAGE_BASE_URL="" npm run build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYPROJ2025 }}
           projectId: myproj2025
-          channelId: ${{ env.FIREBASE_CHANNEL }}

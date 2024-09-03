@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import crypto from 'crypto'
 import puppeteer from 'puppeteer'
 
-const BASE_URL = process.env.BASE_URL || 'https://2025would.com';
+const IMAGE_BASE_URL = process.env.IMAGE_BASE_URL == null ? 'https://2025would.com' : process.env.IMAGE_BASE_URL
 
 fs.rmSync('_site', { recursive: true, force: true })
 fs.mkdirSync('_site', { recursive: true })
@@ -49,7 +49,10 @@ for (const fact of facts) {
   factCards.push({ fact, factCard })
 
   // render HTML page
-  fs.writeFileSync(`_site/${fact.slug}`, factTemplate({ fact, factCard, staticFiles, baseUrl: BASE_URL }))
+  fs.writeFileSync(`_site/${fact.slug}`, factTemplate({ fact,
+                                                        factCard,
+                                                        staticFiles,
+                                                        imageBaseUrl: IMAGE_BASE_URL }))
   console.log(`rendered fact template: ${fact.slug}`)
 
   // render image for OpenGraph
