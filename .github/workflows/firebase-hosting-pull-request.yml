@@ -23,7 +23,9 @@ jobs:
 
       - run: npm install
 
-      - run: npm run build
+      # setting this to empty string results in relative URLs for the OG images
+      # this make it easier to view them in PR previews
+      - run: IMAGE_BASE_URL="" npm run build
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

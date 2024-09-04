@@ -3,8 +3,12 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="<%= fact.statement %>" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://storage.cloud.google.com/fact-images/<%= fact.slug %>.png" />
+        <meta property="og:url" content="https://2025would.com/<%= fact.slug %>" />
+        <meta property="og:image" content="<%= imageBaseUrl %>/images/<%= fact.slug %>.html.png" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:site_name" content="Project 2025 Would" />
         <title>My Project 2025</title>
         <link rel="stylesheet" type="text/css" href="/static/<%= staticFiles['main.css'] %>" />
     </head>
