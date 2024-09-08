@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tailwindcss -i ./main.css -o ./static/main.css && node build.mjs",
-    "dev": "cd _site && php -S localhost:8080",
+    "dev": "concurrently -n 'serve,build' 'npm run dev-server' 'npm run watch'",
+    "dev-server": "cd _site && php -S localhost:8080",
     "build:production": "rm -fr _site && npm run ci && npm run build",
     "ci": "npm run typecheck && npm run lint",
     "deploy": "npm run build:production && firebase deploy",
     "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "watch": "nodemon --watch . --ignore _site/ --exec \"npm run build\""
   },
   "keywords": [],
   "author": "",
@@ -24,10 +26,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "concurrently": "^9.0.0",
     "eslint": "^9.8.0",
     "eslint_d": "^14.0.3",
     "firebase-tools": "^13.15.0",
     "globals": "^15.9.0",
+    "nodemon": "^3.1.4",
     "typescript": "^5.5.4"
   }
 }
